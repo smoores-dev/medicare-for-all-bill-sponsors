@@ -1,8 +1,22 @@
-# blank
+# Medicare for all bill sponsors site
 
-blank
+A website that allows constituents to ensure their representatives support the Medicare for All bill.
 
-## Attributes
+## Local dev
 
-- **Database**: mongodb
-- **Storage Adapter**: localDisk
+Prereqs:
+
+- Node.js 22
+- Yarn (can install with `corepack enable`)
+
+Install dependencies:
+
+```
+yarn install
+```
+
+Run development server:
+
+```
+yarn dev
+```
