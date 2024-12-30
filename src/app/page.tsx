@@ -6,6 +6,24 @@ import { CongressGovApiClient } from "@/congressGovApi"
 import { GoogleCivicInfoApiClient } from "@/googleCivicInfoApi"
 import { Stack } from "@mantine/core"
 
+const GOOGLE_CIVIC_INFORMATION_API_KEY =
+  process.env.GOOGLE_CIVIC_INFORMATION_API_KEY
+const GOOGLE_CIVIC_INFORMATION_BASE_URL =
+  process.env.GOOGLE_CIVIC_INFORMATION_BASE_URL
+
+const CONGRESS_GOV_API_KEY = process.env.CONGRESS_GOV_API_KEY
+const CONGRESS_GOV_BASE_URL = process.env.CONGRESS_GOV_BASE_URL
+
+const CONGRESS_NUMBER =
+  process.env.CONGRESS_NUMBER !== undefined &&
+  parseInt(process.env.CONGRESS_NUMBER, 10)
+const HR_BILL_NUMBER =
+  process.env.HR_BILL_NUMBER !== undefined &&
+  parseInt(process.env.HR_BILL_NUMBER, 10)
+const SENATE_BILL_NUMBER =
+  process.env.SENATE_BILL_NUMBER !== undefined &&
+  parseInt(process.env.SENATE_BILL_NUMBER, 10)
+
 export default async function HomePage() {
   async function findRepresentatives(
     prevData: CongressMemberSearchResults | null,
@@ -13,19 +31,45 @@ export default async function HomePage() {
   ): Promise<CongressMemberSearchResults> {
     "use server"
 
+    if (GOOGLE_CIVIC_INFORMATION_API_KEY === undefined) {
+      throw new Error(
+        `Missing environment variable GOOGLE_CIVIC_INFORMATION_API_KEY`,
+      )
+    }
+    if (GOOGLE_CIVIC_INFORMATION_BASE_URL === undefined) {
+      throw new Error(
+        `Missing environment variable GOOGLE_CIVIC_INFORMATION_BASE_URL`,
+      )
+    }
+    if (CONGRESS_GOV_API_KEY === undefined) {
+      throw new Error(`Missing environment variable CONGRESS_GOV_API_KEY`)
+    }
+    if (CONGRESS_GOV_BASE_URL === undefined) {
+      throw new Error(`Missing environment variable CONGRESS_GOV_BASE_URL`)
+    }
+    if (CONGRESS_NUMBER === false) {
+      throw new Error(`Missing environment variable CONGRESS_NUMBER`)
+    }
+    if (HR_BILL_NUMBER === false) {
+      throw new Error(`Missing environment variable HR_BILL_NUMBER`)
+    }
+    if (SENATE_BILL_NUMBER === false) {
+      throw new Error(`Missing environment variable SENATE_BILL_NUMBER`)
+    }
+
     const address = formData.get("address") as string
 
     const googleCivicInfoClient = new GoogleCivicInfoApiClient(
-      process.env.GOOGLE_CIVIC_INFORMATION_API_KEY!,
-      process.env.GOOGLE_CIVIC_INFORMATION_BASE_URL!,
+      GOOGLE_CIVIC_INFORMATION_API_KEY,
+      GOOGLE_CIVIC_INFORMATION_BASE_URL,
     )
 
     const { state, district, normalizedInput, districtName } =
       await googleCivicInfoClient.getDistrictFromAddress(address)
 
     const congressGovClient = new CongressGovApiClient(
-      process.env.CONGRESS_GOV_API_KEY!,
-      process.env.CONGRESS_GOV_BASE_URL!,
+      CONGRESS_GOV_API_KEY,
+      CONGRESS_GOV_BASE_URL,
     )
 
     const memberData = await congressGovClient.getMembersByDistrict(
@@ -34,8 +78,11 @@ export default async function HomePage() {
     )
 
     const [hrBillSponsors, sBillSponsors] = await Promise.all([
-      congressGovClient.getHrBillSponsors(118, 3421),
-      congressGovClient.getSenateBillSponsors(118, 1655),
+      congressGovClient.getHrBillSponsors(CONGRESS_NUMBER, HR_BILL_NUMBER),
+      congressGovClient.getSenateBillSponsors(
+        CONGRESS_NUMBER,
+        SENATE_BILL_NUMBER,
+      ),
     ])
 
     return {
