@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import { Inter } from "next/font/google"
 
 import { ReactNode } from "react"
@@ -54,6 +55,7 @@ export default async function Layout({ children }: Props) {
       </head>
       <body className="overflow-x-hidden" suppressHydrationWarning>
         <AppShell>{children}</AppShell>
+        <Analytics />
       </body>
     </html>
   )
