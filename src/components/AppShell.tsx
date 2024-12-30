@@ -1,13 +1,11 @@
 "use client"
 
-import NextLink from "next/link"
 import {
   MantineProvider,
   AppShell as MantineAppShell,
   AppShellHeader,
   AppShellMain,
   Title,
-  Anchor,
   Group,
 } from "@mantine/core"
 import { ReactNode } from "react"
@@ -22,9 +20,7 @@ export function AppShell({ children }: Props) {
       <MantineAppShell withBorder={false} header={{ height: 60 }}>
         <AppShellHeader>
           <Group align="center">
-            <Anchor component={NextLink} href="/" className="block">
-              <Title size="h3">Medicare for All!</Title>
-            </Anchor>
+            <Title size="h3">Medicare for All!</Title>
           </Group>
         </AppShellHeader>
 
