@@ -1,0 +1,8 @@
+/.next
+/media
+/node_modules
+/.env
+/giftme.db
+tsconfig.tsbuildinfo
+/Dockerfile
+/.dockerignore

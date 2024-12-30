@@ -1,0 +1,54 @@
+{
+  "name": "medicare-for-all-bill-sponsers",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A website for ensuring that your representatives support Medicare for All!",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "check:format": "prettier --check .",
+    "check:lint": "next lint",
+    "check:types": "tsc",
+    "check": "yarn check:format && yarn check:lint && yarn check:types",
+    "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "devsafe": "rm -rf .next && cross-env NODE_OPTIONS=--no-deprecation next dev",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+  },
+  "dependencies": {
+    "@mantine/core": "^7.13.0",
+    "@mantine/form": "^7.13.0",
+    "@mantine/hooks": "^7.13.0",
+    "@tabler/icons-react": "^3.19.0",
+    "@typescript-eslint/parser": "^8.14.0",
+    "classnames": "^2.5.1",
+    "cross-env": "^7.0.3",
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "0.32.6",
+    "tsx": "^4.19.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.4",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.7.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "15.0.0",
+    "postcss": "^8.4.47",
+    "postcss-import": "^16.1.0",
+    "postcss-preset-mantine": "^1.17.0",
+    "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
+    "tailwindcss": "^3.4.13",
+    "typescript": "5.6.3"
+  },
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0"
+  },
+  "packageManager": "yarn@4.5.0"
+}
