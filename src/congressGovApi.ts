@@ -96,7 +96,12 @@ export class CongressGovApiClient {
   private async fetch<Results>(url: URL) {
     url.searchParams.append("api_key", this.apiKey)
 
-    const response = await fetch(url)
+    const response = await fetch(url, {
+      next: {
+        // Cache for one day
+        revalidate: 60 * 60 * 24,
+      },
+    })
 
     const result = (await response.json()) as Results
     return result
