@@ -25,9 +25,12 @@ const SENATE_BILL_NUMBER =
   parseInt(process.env.SENATE_BILL_NUMBER, 10)
 
 export default async function HomePage() {
+  if (CONGRESS_NUMBER === false) {
+    throw new Error(`Missing environment variable CONGRESS_NUMBER`)
+  }
+
   async function findRepresentatives(
-    prevData: CongressMemberSearchResults | null,
-    formData: FormData,
+    address: string,
   ): Promise<CongressMemberSearchResults> {
     "use server"
 
@@ -56,8 +59,6 @@ export default async function HomePage() {
     if (SENATE_BILL_NUMBER === false) {
       throw new Error(`Missing environment variable SENATE_BILL_NUMBER`)
     }
-
-    const address = formData.get("address") as string
 
     const googleCivicInfoClient = new GoogleCivicInfoApiClient(
       GOOGLE_CIVIC_INFORMATION_API_KEY,
@@ -113,7 +114,10 @@ export default async function HomePage() {
         Enter your address below and find out how to make sure your
         representatives support Medicare for all
       </p>
-      <SearchForm action={findRepresentatives} />
+      <SearchForm
+        congressNumber={CONGRESS_NUMBER}
+        action={findRepresentatives}
+      />
     </Stack>
   )
 }

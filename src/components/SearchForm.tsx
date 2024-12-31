@@ -2,17 +2,9 @@
 
 import { CongressGovMemberResponseData } from "@/congressGovApi"
 import { GoogleCivicInfoDivisonsResponseData } from "@/googleCivicInfoApi"
-import {
-  TextInput,
-  Button,
-  Stack,
-  Paper,
-  Title,
-  Group,
-  Image,
-  Anchor,
-} from "@mantine/core"
-import { useActionState } from "react"
+import { Stack, Paper, Title, Group, Image, Anchor } from "@mantine/core"
+import { useCallback, useState, useTransition } from "react"
+import { AddressAutocomplete } from "./AddressAutocomplete"
 
 export interface CongressMemberSearchResults {
   members: (CongressGovMemberResponseData["member"] & {
@@ -23,23 +15,31 @@ export interface CongressMemberSearchResults {
 }
 
 interface Props {
-  action: (
-    prevState: CongressMemberSearchResults | null,
-    formData: FormData,
-  ) => Promise<CongressMemberSearchResults>
+  congressNumber: number
+  action: (address: string) => Promise<CongressMemberSearchResults>
 }
 
-export function SearchForm({ action }: Props) {
-  const [state, formAction, isPending] = useActionState(action, null)
+export function SearchForm({ congressNumber, action }: Props) {
+  const [state, setState] = useState<null | CongressMemberSearchResults>(null)
+  const [isPending, startTransition] = useTransition()
+
+  const onChange = useCallback(
+    (address: string) => {
+      startTransition(async () => {
+        const newState = await action(address)
+        startTransition(() => {
+          setState(newState)
+        })
+      })
+    },
+    [action],
+  )
+
+  console.log(state)
 
   return (
     <>
-      <form action={formAction} className="flex flex-col">
-        <TextInput label="Address" name="address" />
-        <Button type="submit" disabled={isPending}>
-          Submit
-        </Button>
-      </form>
+      <AddressAutocomplete disabled={isPending} onChange={onChange} />
       {state && (
         <Stack>
           <p>State: {state.location.state}</p>
@@ -51,12 +51,18 @@ export function SearchForm({ action }: Props) {
               <Group>
                 <Image h={150} w={100} src={member.depiction.imageUrl} alt="" />
                 <Stack>
-                  <Title order={3}>{member.name}</Title>
+                  <Title order={3}>{member.directOrderName}</Title>
                   <p>
                     Chamber:{" "}
                     {
-                      member.terms.find((term) => term.congress === 118)
-                        ?.chamber
+                      member.terms
+                        // Members can switch chambers within a single congress in some
+                        // cases. First filter for the current congress, then find the most
+                        // recent term to determine which chamber to display
+                        .filter((term) => term.congress === congressNumber)
+                        .reduce((acc, term) =>
+                          acc.startYear > term.startYear ? acc : term,
+                        )?.chamber
                     }
                   </p>
                   {member.isCosponsor ? (

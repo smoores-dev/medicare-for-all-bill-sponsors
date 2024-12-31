@@ -6,12 +6,12 @@ export interface CongressGovMemberResponseData {
       imageUrl: string
     }
     district: number | null
-    name: string
     partyName: string
     state: string
     terms: {
       chamber: string
       startYear: number
+      endYear?: number
       congress: number
     }[]
     updateDate: string
