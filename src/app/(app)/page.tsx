@@ -1,10 +1,13 @@
+import { GetInvolvedForm } from "@/components/GetInvolvedForm"
 import {
   CongressMemberSearchResults,
   SearchForm,
 } from "@/components/SearchForm"
 import { CongressGovApiClient } from "@/congressGovApi"
 import { GoogleCivicInfoApiClient } from "@/googleCivicInfoApi"
-import { Stack } from "@mantine/core"
+import payloadConfig from "@/payload.config"
+import { Stack, Title } from "@mantine/core"
+import { getPayload } from "payload"
 
 const GOOGLE_CIVIC_INFORMATION_API_KEY =
   process.env.GOOGLE_CIVIC_INFORMATION_API_KEY
@@ -25,6 +28,10 @@ const SENATE_BILL_NUMBER =
   parseInt(process.env.SENATE_BILL_NUMBER, 10)
 
 export default async function HomePage() {
+  const payload = await getPayload({ config: payloadConfig })
+
+  const form = await payload.findByID({ collection: "forms", id: 1 })
+
   if (CONGRESS_NUMBER === false) {
     throw new Error(`Missing environment variable CONGRESS_NUMBER`)
   }
@@ -118,6 +125,8 @@ export default async function HomePage() {
         congressNumber={CONGRESS_NUMBER}
         action={findRepresentatives}
       />
+      <Title order={2}>Looking to get more involved?</Title>
+      <GetInvolvedForm form={form} />
     </Stack>
   )
 }

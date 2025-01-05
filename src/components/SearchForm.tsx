@@ -35,8 +35,6 @@ export function SearchForm({ congressNumber, action }: Props) {
     [action],
   )
 
-  console.log(state)
-
   return (
     <>
       <AddressAutocomplete disabled={isPending} onChange={onChange} />

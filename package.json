@@ -17,12 +17,16 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@faceless-ui/modal": "^3.0.0-beta.2",
+    "@faceless-ui/scroll-info": "2.0.0-beta.0",
+    "@lexical/table": "0.20.0",
     "@mantine/core": "^7.13.0",
-    "@mantine/form": "^7.13.0",
+    "@mantine/form": "^7.15.2",
     "@mantine/hooks": "^7.13.0",
     "@payloadcms/db-vercel-postgres": "^3.14.0",
     "@payloadcms/next": "^3.14.0",
     "@payloadcms/payload-cloud": "^3.14.0",
+    "@payloadcms/plugin-form-builder": "^3.14.0",
     "@payloadcms/richtext-lexical": "^3.14.0",
     "@tabler/icons-react": "^3.19.0",
     "@typescript-eslint/parser": "^8.14.0",

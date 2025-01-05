@@ -1,6 +1,7 @@
 // storage-adapter-import-placeholder
 import { vercelPostgresAdapter } from "@payloadcms/db-vercel-postgres"
 import { lexicalEditor } from "@payloadcms/richtext-lexical"
+import { formBuilderPlugin } from "@payloadcms/plugin-form-builder"
 import path from "path"
 import { buildConfig } from "payload"
 import { fileURLToPath } from "url"
@@ -31,5 +32,11 @@ export default buildConfig({
     },
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    formBuilderPlugin({
+      fields: {
+        payment: false,
+      },
+    }),
+  ],
 })
