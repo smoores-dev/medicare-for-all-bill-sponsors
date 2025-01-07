@@ -6,7 +6,11 @@ export interface CongressGovMemberResponseData {
       imageUrl: string
     }
     district: number | null
-    partyName: string
+    partyHistory: {
+      partyAbbreviation: string
+      partyName: string
+      startYear: number
+    }[]
     state: string
     terms: {
       chamber: string

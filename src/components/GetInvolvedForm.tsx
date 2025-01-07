@@ -4,6 +4,7 @@ import { Form } from "@/payload-types"
 import {
   Button,
   Checkbox,
+  Group,
   MultiSelect,
   Notification,
   Portal,
@@ -217,9 +218,11 @@ export function GetInvolvedForm({ form: formConfig }: Props) {
         }
         return null
       })}
-      <Button type="submit" loading={isPending}>
-        {formConfig.submitButtonLabel}
-      </Button>
+      <Group justify="flex-end">
+        <Button type="submit" loading={isPending} mt="lg">
+          {formConfig.submitButtonLabel}
+        </Button>
+      </Group>
       <Portal>
         {showSuccess && (
           <Notification

@@ -1,34 +1,41 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react"
+"use client"
+
+import React, { useEffect, useRef } from "react"
 import Radar from "radar-sdk-js"
 import "radar-sdk-js/dist/radar.css"
 import AutocompleteUI from "radar-sdk-js/dist/ui/autocomplete"
+import { useRouter } from "next/navigation"
 
-interface Props {
-  disabled: boolean
-  onChange: (address: string) => void
-}
-
-export function AddressAutocomplete({ disabled, onChange }: Props) {
-  const initialDisabled = useRef(disabled)
+export function AddressAutocomplete() {
   const autocompleteRef = useRef<AutocompleteUI>(null)
 
-  useLayoutEffect(() => {
-    autocompleteRef.current?.setDisabled(disabled)
-  }, [disabled])
+  const router = useRouter()
 
   useEffect(() => {
     Radar.initialize(process.env.NEXT_PUBLIC_RADAR_API_KEY!)
+
     autocompleteRef.current = Radar.ui.autocomplete({
       container: "autocomplete",
       width: "600px",
       countryCode: "US",
-      disabled: initialDisabled.current,
-      onSelection: (address) => onChange(address.formattedAddress),
+      placeholder: "Search street address",
+      onSelection: (address) => {
+        const hash = btoa(address.formattedAddress)
+          .replace(/\+/g, "-")
+          .replace(/\//g, "_")
+          .replace(/=+$/, "")
+        router.push(`/results/${hash}`)
+      },
     })
+
+    const wrapper = autocompleteRef.current.container
+      .firstElementChild! as HTMLElement
+    wrapper.style.maxWidth = "100%"
+
     return () => {
       autocompleteRef.current?.remove()
     }
-  }, [onChange])
+  }, [router])
 
-  return <div id="autocomplete" />
+  return <div id="autocomplete" className="w-full" />
 }

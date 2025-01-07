@@ -53,7 +53,7 @@ export default async function Layout({ children }: Props) {
         />
         <ColorSchemeScript />
       </head>
-      <body className="overflow-x-hidden" suppressHydrationWarning>
+      <body className="bg-canvas overflow-x-hidden" suppressHydrationWarning>
         <AppShell>{children}</AppShell>
         <Analytics />
       </body>
