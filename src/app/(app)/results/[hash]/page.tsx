@@ -32,6 +32,9 @@ const SENATE_BILL_NUMBER =
   process.env.SENATE_BILL_NUMBER !== undefined &&
   parseInt(process.env.SENATE_BILL_NUMBER, 10)
 
+// Cache the entire route for one day (60 * 60 * 24 = 86400)
+export const revalidate = 86400
+
 interface Props {
   params: Promise<{ hash: string }>
 }
