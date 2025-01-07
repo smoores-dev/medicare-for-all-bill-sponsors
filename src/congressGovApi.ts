@@ -71,6 +71,11 @@ export interface CongressGovBillCosponsorsResponseData {
     state: string
     url: string
   }[]
+  pagination: {
+    count: number
+    countIncludingWithdrawnCosponsors: number
+    next: string
+  }
 }
 
 export interface CongressGoveBillResponseData {
@@ -155,17 +160,38 @@ export class CongressGovApiClient {
     }
   }
 
-  async getHrBillSponsors(congress: number, billNumber: number) {
-    const billUrl = new URL(`bill/${congress}/hr/${billNumber}`, this.baseUrl)
-
+  async getHrBillCosponsors(congress: number, billNumber: number) {
     const billCosponsorsUrl = new URL(
       `bill/${congress}/hr/${billNumber}/cosponsors`,
       this.baseUrl,
     )
+    // The max for this param is 250
+    billCosponsorsUrl.searchParams.append("limit", "250")
+
+    const pageOne =
+      await this.fetch<CongressGovBillCosponsorsResponseData>(billCosponsorsUrl)
+
+    // If we do a good job, we may have more than 250 cosponsors!
+    // If so, we need to send a second request for the rest
+    if (pageOne.pagination.count > 250) {
+      billCosponsorsUrl.searchParams.append("offset", "250")
+      const pageTwo =
+        await this.fetch<CongressGovBillCosponsorsResponseData>(
+          billCosponsorsUrl,
+        )
+
+      pageOne.cosponsors.push(...pageTwo.cosponsors)
+    }
+
+    return pageOne
+  }
+
+  async getHrBillSponsors(congress: number, billNumber: number) {
+    const billUrl = new URL(`bill/${congress}/hr/${billNumber}`, this.baseUrl)
 
     const [bill, billCosponsors] = await Promise.all([
       this.fetch<CongressGoveBillResponseData>(billUrl),
-      this.fetch<CongressGovBillCosponsorsResponseData>(billCosponsorsUrl),
+      this.getHrBillCosponsors(congress, billNumber),
     ])
 
     return {
@@ -181,6 +207,7 @@ export class CongressGovApiClient {
       `bill/${congress}/s/${billNumber}/cosponsors`,
       this.baseUrl,
     )
+    billCosponsorsUrl.searchParams.append("limit", "100")
 
     const [bill, billCosponsors] = await Promise.all([
       this.fetch<CongressGoveBillResponseData>(billUrl),
