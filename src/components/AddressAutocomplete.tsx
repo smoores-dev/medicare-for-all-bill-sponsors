@@ -20,6 +20,7 @@ export function AddressAutocomplete() {
       width: "600px",
       countryCode: "US",
       placeholder: "Search street address",
+      layers: ["address"],
       onSelection: (address: RadarAddress) => {
         const searchParams = new URLSearchParams()
         searchParams.append("number", address.number!)
