@@ -7,10 +7,10 @@ import {
   Paper,
   Stack,
   Title,
-  Image,
   Text,
   Divider,
   Box,
+  BackgroundImage,
 } from "@mantine/core"
 import Link from "next/link"
 
@@ -36,12 +36,13 @@ const SENATE_BILL_NUMBER =
 export const revalidate = 86400
 
 interface Props {
-  params: Promise<{ hash: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export default async function Results({ params }: Props) {
-  const { hash } = await params
-  const address = Buffer.from(hash, "base64url").toString("utf-8")
+export default async function Results({ searchParams }: Props) {
+  const { number, unit, street, city, state, zip } = await searchParams
+
+  const address = `${number}${unit ? ` ${unit}` : ""} ${street}, ${city}, ${state} ${zip}`
 
   if (GOOGLE_CIVIC_INFORMATION_API_KEY === undefined) {
     throw new Error(
@@ -74,16 +75,21 @@ export default async function Results({ params }: Props) {
     GOOGLE_CIVIC_INFORMATION_BASE_URL,
   )
 
-  const { state, district, normalizedInput, districtName } =
-    await googleCivicInfoClient.getDistrictFromAddress(address)
+  const {
+    state: stateCode,
+    district,
+    normalizedInput,
+    districtName,
+  } = await googleCivicInfoClient.getDistrictFromAddress(address)
 
   const congressGovClient = new CongressGovApiClient(
     CONGRESS_GOV_API_KEY,
+    CONGRESS_NUMBER,
     CONGRESS_GOV_BASE_URL,
   )
 
   const memberData = await congressGovClient.getMembersByDistrict(
-    state.toUpperCase(),
+    stateCode.toUpperCase(),
     parseInt(district, 10),
   )
 
@@ -120,7 +126,9 @@ export default async function Results({ params }: Props) {
     <Stack className="m-auto gap-8">
       <Box>
         <Title order={2} className="mb-3 text-4xl">
-          {address}
+          {number} {street} {unit}
+          <br />
+          {city}, {state} {zip}
         </Title>
         <Text size="lg">{results.district}</Text>
       </Box>
@@ -143,8 +151,16 @@ export default async function Results({ params }: Props) {
 
           return (
             <Paper key={member.bioguideId} className="bg-canvas">
-              <Group>
-                <Image h={120} w={100} src={member.depiction.imageUrl} alt="" />
+              <Group wrap="nowrap">
+                {member.depiction ? (
+                  <BackgroundImage
+                    src={member.depiction.imageUrl}
+                    alt=""
+                    className="min-[612px]:h-36 min-[612px]:w-28 h-24 w-20 shrink-0 self-start object-cover"
+                  />
+                ) : (
+                  <Box className="min-[612px]:h-36 min-[612px]:w-28 h-24 w-20 shrink-0 self-start rounded border-2 border-brand" />
+                )}
                 <Stack justify="space-between" className="grow">
                   <Box>
                     <Title order={3} size="lg">
@@ -162,10 +178,10 @@ export default async function Results({ params }: Props) {
                   <Group
                     justify="space-between"
                     className="self-stretch"
-                    gap={0}
+                    gap={8}
                   >
                     <Text>
-                      Give them a call:{" "}
+                      Call office:{" "}
                       <Anchor
                         className="font-bold text-black"
                         href={`tel:${member.addressInformation.phoneNumber}`}

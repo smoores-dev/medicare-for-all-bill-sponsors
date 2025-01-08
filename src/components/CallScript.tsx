@@ -24,28 +24,21 @@ export function CallScript({ scriptFor }: Props) {
         classNames={{
           content: "bg-canvas",
           header: "bg-canvas",
-          title: "font-black py-4",
+          title: "mx-auto max-w-[596px] font-black py-4",
+          body: "border-t-2",
         }}
         transitionProps={{ transition: "fade", duration: 200 }}
         title={`Call script for ${scriptFor}`}
       >
-        <Box className="border-t-2 py-8">
+        <Box className="mx-auto max-w-[596px] py-8">
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at
-            dictum libero.
-          </Text>
-          <Text>
-            Phasellus convallis nunc at convallis cursus. Duis eu magna leo. In
-            vitae dignissim odio, eu posuere diam. Phasellus eleifend lacus
-            efficitur dignissim malesuada. Nulla volutpat sit amet arcu at
-            feugiat. Maecenas tristique nisi nec odio accumsan, in aliquet ante
-            sollicitudin. In dapibus libero eget orci condimentum, non faucibus
-            lacus blandit. Proin convallis nisi vitae tempor pretium. Fusce in
-            lorem turpis.
-          </Text>
-          <Text>
-            In id vestibulum ante. Etiam ut porttitor massa, et malesuada magna.
-            Proin sed nisi laoreet, aliquam dui sit amet, auctor odio.
+            My name is ______, I am a constituent living in ________. I am
+            calling to urge you to cosponsor the Medicare for All Act. In the
+            wealthiest nation on earth, no one should die, suffer, or fall into
+            debt simply because they need medical care. Healthcare is a human
+            right. The United States must join every other industrialized nation
+            in the world and pass national healthcare. If you do not support the
+            Medicare for all Act, I will elect someone who does.
           </Text>
         </Box>
       </Modal>

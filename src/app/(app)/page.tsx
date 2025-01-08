@@ -11,7 +11,7 @@ export default async function HomePage() {
   }
 
   return (
-    <Stack align="flex-start" className="m-auto">
+    <Stack align="flex-start" className="mx-auto">
       <Title className="text-4xl md:text-5xl lg:text-6xl">
         Do your representatives
         <br />

@@ -11,12 +11,13 @@ import {
   createTheme,
   rem,
   Divider,
-  AppShellFooter,
   Anchor,
+  Stack,
 } from "@mantine/core"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ReactNode } from "react"
+import cx from "classnames"
 
 const brand: MantineColorsTuple = [
   "#ffefe3",
@@ -90,11 +91,11 @@ export function AppShell({ children }: Props) {
     <MantineProvider theme={theme} defaultColorScheme="light">
       <MantineAppShell
         withBorder={false}
-        header={{ height: 30 + 20 + 20 }}
+        header={pathname !== "/" ? { height: rem(30 + 20 + 20) } : undefined}
         className="p-5"
       >
         {pathname !== "/" && (
-          <AppShellHeader className="bg-canvas border-b-brand border-b-2 px-10 py-5">
+          <AppShellHeader className="border-b-2 border-b-brand bg-canvas px-10 py-5">
             <Group align="center">
               <Anchor component={Link} href="/">
                 <Title size="h3" className="text-brand">
@@ -106,76 +107,95 @@ export function AppShell({ children }: Props) {
         )}
 
         <AppShellMain
-          className="mx-auto mt-8"
+          className={cx("mx-auto mt-8", {
+            "min-h-[calc(100dvh-(1.25rem+1.25rem+2rem))]": pathname === "/",
+            "min-h-[calc(100dvh-(1.25rem+1.25rem+2rem+2px+1.25rem+1.25rem+1.875rem))]":
+              pathname !== "/",
+          })}
           style={{
             maxWidth: pathname === "/" ? 726 : 568,
           }}
         >
-          {children}
+          <Stack
+            justify="space-between"
+            align="flex-start"
+            className={cx({
+              "min-h-[calc(100dvh-(1.25rem+1.25rem+2rem))]": pathname === "/",
+              "min-h-[calc(100dvh-(1.25rem+1.25rem+2rem+2px+1.25rem+1.25rem+1.875rem))]":
+                pathname !== "/",
+            })}
+          >
+            {children}
+            <Group
+              className="gap-16 pb-10 pt-6"
+              style={{
+                maxWidth: pathname === "/" ? 726 : 568,
+              }}
+            >
+              {pathname === "/get-involved" && (
+                <>
+                  <Anchor
+                    className="text-base text-black opacity-60"
+                    component={Link}
+                    href="/"
+                  >
+                    Home
+                  </Anchor>
+                  <Anchor
+                    className="text-base text-black opacity-60"
+                    component={Link}
+                    href="/about"
+                  >
+                    About
+                  </Anchor>
+                </>
+              )}
+              {pathname === "/about" && (
+                <>
+                  <Anchor
+                    className="text-base text-black opacity-60"
+                    component={Link}
+                    href="/"
+                  >
+                    Home
+                  </Anchor>
+                  <Anchor
+                    className="text-base text-black opacity-60"
+                    component={Link}
+                    href="/get-involved"
+                  >
+                    Get Involved
+                  </Anchor>
+                </>
+              )}
+              {pathname !== "/get-involved" && pathname !== "/about" && (
+                <>
+                  <Anchor
+                    className="text-base text-black opacity-60"
+                    component={Link}
+                    href="/get-involved"
+                  >
+                    Get Involved
+                  </Anchor>
+                  <Anchor
+                    className="text-base text-black opacity-60"
+                    component={Link}
+                    href="/about"
+                  >
+                    About
+                  </Anchor>
+                </>
+              )}
+            </Group>
+          </Stack>
         </AppShellMain>
-        <AppShellFooter
+        {/* <AppShellFooter
           className="bg-canvas mx-auto pb-10"
           style={{
             maxWidth: pathname === "/" ? 726 : 568,
           }}
-        >
-          <Group className="gap-16">
-            {pathname === "/get-involved" && (
-              <>
-                <Anchor
-                  className="text-base text-black opacity-60"
-                  component={Link}
-                  href="/home"
-                >
-                  Home
-                </Anchor>
-                <Anchor
-                  className="text-base text-black opacity-60"
-                  component={Link}
-                  href="/about"
-                >
-                  About
-                </Anchor>
-              </>
-            )}
-            {pathname === "/about" && (
-              <>
-                <Anchor
-                  className="text-base text-black opacity-60"
-                  component={Link}
-                  href="/home"
-                >
-                  Home
-                </Anchor>
-                <Anchor
-                  className="text-base text-black opacity-60"
-                  component={Link}
-                  href="/get-involved"
-                >
-                  Get Involved
-                </Anchor>
-              </>
-            )}
-            {pathname !== "/get-involved" && pathname !== "/about" && (
-              <>
-                <Anchor
-                  className="text-base text-black opacity-60"
-                  component={Link}
-                  href="/get-involved"
-                >
-                  Get Involved
-                </Anchor>
-                <Anchor
-                  className="text-base text-black opacity-60"
-                  component={Link}
-                  href="/about"
-                >
-                  About
-                </Anchor>
-              </>
-            )}
-          </Group>
-        </AppShellFooter>
+        > */}
+        {/* </AppShellFooter> */}
       </MantineAppShell>
     </MantineProvider>
   )

@@ -1,7 +1,7 @@
 export interface CongressGovMemberResponseData {
   member: {
     bioguideId: string
-    depiction: {
+    depiction?: {
       attribution: string
       imageUrl: string
     }
@@ -99,6 +99,7 @@ export interface CongressGoveBillResponseData {
 export class CongressGovApiClient {
   constructor(
     private apiKey: string,
+    public congressNumber: number,
     public baseUrl: string,
   ) {}
 
@@ -126,10 +127,13 @@ export class CongressGovApiClient {
 
   async listMembersByDistrict(state: string, district: number) {
     const membersUrl = new URL(
-      `member/congress/118/${state.toUpperCase()}`,
+      `member/congress/${this.congressNumber}/${state.toUpperCase()}`,
       this.baseUrl,
     )
     membersUrl.searchParams.append("currentMember", "true")
+    // California has the largest number of house members with 52,
+    // so no state will have more than 54 total reps
+    membersUrl.searchParams.append("limit", "54")
 
     const membersData =
       await this.fetch<CongressGovMembersResponseData>(membersUrl)
@@ -139,7 +143,7 @@ export class CongressGovApiClient {
         (member) =>
           // Senators have no district, so include members with null districts
           // as well
-          member.district === district || member.district === null,
+          member.district === district || member.district == null,
       ),
     }
   }
