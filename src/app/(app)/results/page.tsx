@@ -1,4 +1,3 @@
-import { CallScript } from "@/components/CallScript"
 import { CongressGovApiClient } from "@/congressGovApi"
 import { GoogleCivicInfoApiClient } from "@/googleCivicInfoApi"
 import {
@@ -11,6 +10,7 @@ import {
   Divider,
   Box,
   BackgroundImage,
+  Button,
 } from "@mantine/core"
 import Link from "next/link"
 
@@ -149,6 +149,13 @@ export default async function Results({ searchParams }: Props) {
             acc.startYear > party.startYear ? acc : party,
           )?.partyAbbreviation
 
+          const callScriptParams = new URLSearchParams()
+          callScriptParams.append(
+            "supporting",
+            member.isCosponsor ? "true" : "false",
+          )
+          callScriptParams.append("member", member.directOrderName)
+
           return (
             <Paper key={member.bioguideId} className="bg-canvas">
               <Group wrap="nowrap">
@@ -189,9 +196,14 @@ export default async function Results({ searchParams }: Props) {
                         {member.addressInformation.phoneNumber}
                       </Anchor>
                     </Text>
-                    <CallScript
-                      scriptFor={`${chamber === "Senate" ? "Sen." : "Rep."} ${member.directOrderName}`}
-                    />
+                    <Button
+                      component={Link}
+                      href={`/call-script?${callScriptParams.toString()}`}
+                      size="sm"
+                      variant="outline"
+                    >
+                      View call script
+                    </Button>
                   </Group>
                 </Stack>
               </Group>
