@@ -113,7 +113,7 @@ export function AppShell({ children }: Props) {
               pathname !== "/",
           })}
           style={{
-            maxWidth: pathname === "/" ? 726 : 568,
+            maxWidth: pathname === "/" ? 746 : 568,
           }}
         >
           <Stack
@@ -129,7 +129,7 @@ export function AppShell({ children }: Props) {
             <Group
               className="gap-16 pb-10 pt-6"
               style={{
-                maxWidth: pathname === "/" ? 726 : 568,
+                maxWidth: pathname === "/" ? 746 : 568,
               }}
             >
               {pathname === "/get-involved" && (

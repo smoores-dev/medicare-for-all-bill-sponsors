@@ -13,9 +13,9 @@ export default async function HomePage() {
   return (
     <Stack align="flex-start" className="mx-auto">
       <Title className="text-4xl md:text-5xl lg:text-6xl">
-        Do your representatives
+        Do your elected
         <br />
-        in Congress support
+        representatives support
         <br />
         <span className="text-brand">Medicare For All?</span>
       </Title>
