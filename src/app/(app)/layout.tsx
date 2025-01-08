@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react"
+import { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import { ReactNode } from "react"
@@ -36,4 +37,8 @@ export default async function Layout({ children }: Props) {
       </body>
     </html>
   )
+}
+
+export const metadata: Metadata = {
+  title: "Support Medicare For All",
 }
