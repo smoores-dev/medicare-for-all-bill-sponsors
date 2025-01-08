@@ -41,4 +41,9 @@ export default async function Layout({ children }: Props) {
 
 export const metadata: Metadata = {
   title: "Support Medicare For All",
+  openGraph: {
+    images: {
+      url: "/supportm4a-og.png",
+    },
+  },
 }
