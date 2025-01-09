@@ -22,8 +22,9 @@ export function CallScript({ scriptFor, isSupporting }: Props) {
       classNames={{
         content: "bg-canvas",
         header: "bg-canvas",
-        title: "mx-auto max-w-[596px] font-black py-4",
+        title: "mx-auto max-w-[596px] w-full font-black py-4",
         body: "border-t-2",
+        close: "ms-0",
       }}
       transitionProps={{ transition: "fade", duration: 200 }}
       title={`Call script for ${scriptFor}`}

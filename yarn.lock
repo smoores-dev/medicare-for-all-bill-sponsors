@@ -7814,6 +7814,7 @@ __metadata:
     react-dom: "npm:^19.0.0"
     sharp: "npm:0.32.6"
     tailwindcss: "npm:^3.4.13"
+    throttleit: "npm:^2.1.0"
     tsx: "npm:^4.19.1"
     typescript: "npm:5.6.3"
   languageName: unknown
@@ -10849,6 +10850,13 @@ __metadata:
   dependencies:
     real-require: "npm:^0.2.0"
   checksum: 10c0/c36118379940b77a6ef3e6f4d5dd31e97b8210c3f7b9a54eb8fe6358ab173f6d0acfaf69b9c3db024b948c0c5fd2a7df93e2e49151af02076b35ada3205ec9a6
+  languageName: node
+  linkType: hard
+
+"throttleit@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "throttleit@npm:2.1.0"
+  checksum: 10c0/1696ae849522cea6ba4f4f3beac1f6655d335e51b42d99215e196a718adced0069e48deaaf77f7e89f526ab31de5b5c91016027da182438e6f9280be2f3d5265
   languageName: node
   linkType: hard
 

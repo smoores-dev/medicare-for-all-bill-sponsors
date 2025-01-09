@@ -41,6 +41,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sharp": "0.32.6",
+    "throttleit": "^2.1.0",
     "tsx": "^4.19.1"
   },
   "devDependencies": {

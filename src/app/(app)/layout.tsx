@@ -40,6 +40,7 @@ export default async function Layout({ children }: Props) {
 }
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://supportmedicareforall.org"),
   title: "Support Medicare For All",
   description:
     "Find out what we need to do to achieve universal healthcare in America.",
