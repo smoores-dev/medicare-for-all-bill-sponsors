@@ -69,12 +69,12 @@ export function AddressAutocomplete() {
       )
       if (!address) return null
       return (
-        <>
+        <span className="overflow-x-hidden whitespace-nowrap">
           <strong>
             {address.number} {address.unit} {address.street}
           </strong>{" "}
           {address.city}, {address.state} {address.postalCode}
-        </>
+        </span>
       )
     },
     [addresses],
