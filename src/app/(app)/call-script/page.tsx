@@ -5,8 +5,14 @@ interface Props {
 }
 
 export default async function CallScriptPage({ searchParams }: Props) {
-  const { member, supporting } = await searchParams
+  const { member, phoneNumber, supporting } = await searchParams
   const isSupporting = supporting === "true"
 
-  return <CallScript scriptFor={member as string} isSupporting={isSupporting} />
+  return (
+    <CallScript
+      scriptFor={member as string}
+      phoneNumber={phoneNumber as string}
+      isSupporting={isSupporting}
+    />
+  )
 }

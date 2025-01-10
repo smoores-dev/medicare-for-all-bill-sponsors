@@ -125,12 +125,14 @@ export default async function Results({ searchParams }: Props) {
   return (
     <Stack className="m-auto gap-8">
       <Box>
-        <Title order={2} className="mb-3 text-4xl">
+        <Text>
           {number} {street} {unit}
           <br />
           {city}, {state} {zip}
+        </Text>
+        <Title order={2} className="mt-3 text-3xl md:text-4xl">
+          {results.district}
         </Title>
-        <Text size="lg">{results.district}</Text>
       </Box>
       <Divider />
       <Text>Your representatives:</Text>
@@ -155,6 +157,10 @@ export default async function Results({ searchParams }: Props) {
             member.isCosponsor ? "true" : "false",
           )
           callScriptParams.append("member", member.directOrderName)
+          callScriptParams.append(
+            "phoneNumber",
+            member.addressInformation.phoneNumber,
+          )
 
           return (
             <Paper key={member.bioguideId} className="bg-canvas">
@@ -176,9 +182,9 @@ export default async function Results({ searchParams }: Props) {
                     <Text>
                       {chamber === "Senate" ? chamber : "House"} ({party})
                     </Text>
-                    <Text>
+                    <Text className="mt-2">
                       {member.isCosponsor
-                        ? "Is a cosponsor of the Medicare For All Act 😄"
+                        ? "Is a cosponsor of the Medicare For All Act 🧡😄🧡"
                         : "Not a cosponsor of the Medicare For All Act 😠"}
                     </Text>
                   </Box>
@@ -211,6 +217,12 @@ export default async function Results({ searchParams }: Props) {
           )
         })}
       </Stack>
+      {results.members.length < 3 && (
+        <Text className="italic">
+          Data on newly-elected members of Congress is not available but should
+          be soon.
+        </Text>
+      )}
       <Divider />
       <Box>
         <Text className="text-2xl">

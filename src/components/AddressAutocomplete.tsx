@@ -83,12 +83,13 @@ export function AddressAutocomplete() {
   return (
     <Select
       placeholder="Search street address"
-      leftSection={<IconSearch width={rem(16)} height={rem(16)} />}
+      leftSection={<IconSearch width={rem(20)} height={rem(20)} />}
       rightSection={<></>}
       className="w-full"
       searchable
       onSearchChange={handleSearchChange}
       data={data}
+      size="md"
       filter={({ options }) => options}
       renderOption={renderOption}
       onChange={handleChange}

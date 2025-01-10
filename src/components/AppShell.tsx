@@ -92,10 +92,10 @@ export function AppShell({ children }: Props) {
       <MantineAppShell
         withBorder={false}
         header={pathname !== "/" ? { height: rem(30 + 20 + 20) } : undefined}
-        className="p-5"
+        className="p-6"
       >
         {pathname !== "/" && (
-          <AppShellHeader className="border-b-2 border-b-brand bg-canvas px-10 py-5">
+          <AppShellHeader className="border-b-2 border-b-brand bg-canvas px-6 py-5 md:px-8">
             <Group align="center">
               <Anchor component={Link} href="/">
                 <Title size="h3" className="text-brand">
@@ -127,7 +127,7 @@ export function AppShell({ children }: Props) {
           >
             {children}
             <Group
-              className="gap-16 pb-10 pt-6"
+              className="gap-16 pb-8 pt-16"
               style={{
                 maxWidth: pathname === "/" ? 746 : 568,
               }}
