@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Modal, Text, Anchor } from "@mantine/core"
+import { Box, Modal, Text } from "@mantine/core"
 import { useRouter } from "next/navigation"
 
 interface Props {
@@ -34,14 +34,14 @@ export function CallScript({ scriptFor, phoneNumber, isSupporting }: Props) {
         <Text>
           {isSupporting ? (
             <>
-              Hi, my name is ____, I’m a constituent living in ______. I am
+              Hi, my name is ____. I am a constituent living in ______. I am
               calling to thank you for supporting the Medicare for All Act. I
               appreciate you fighting for health care as a human right, and I
               urge you to make this a top priority.
             </>
           ) : (
             <>
-              My name is ______, I am a constituent living in ________. I am
+              My name is ______. I am a constituent living in ________. I am
               calling to urge you to cosponsor the Medicare for All Act. In the
               wealthiest nation on earth, no one should die, suffer, or fall
               into debt simply because they need medical care. Healthcare is a
