@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Modal, Text } from "@mantine/core"
+import { Box, Modal, Text, Anchor } from "@mantine/core"
 import { useRouter } from "next/navigation"
 
 interface Props {
@@ -28,7 +28,14 @@ export function CallScript({ scriptFor, phoneNumber, isSupporting }: Props) {
         close: "ms-0",
       }}
       transitionProps={{ transition: "fade", duration: 200 }}
-      title={`Call script for ${scriptFor} — ${phoneNumber}`}
+      title={
+        <>
+          Call script for {scriptFor} —{" "}
+          <Anchor className="font-black text-black" href={`tel:${phoneNumber}`}>
+            {phoneNumber}
+          </Anchor>
+        </>
+      }
     >
       <Box className="mx-auto max-w-[596px] py-8">
         <Text>
