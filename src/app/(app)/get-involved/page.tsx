@@ -9,7 +9,7 @@ export default async function GetInvolved() {
   const form = await payload.findByID({ collection: "forms", id: 1 })
   return (
     <Stack align="stretch">
-      <Title order={2} className="text-4xl md:text-5xl lg:text-6xl">
+      <Title order={2} className="mb-2 text-5xl lg:mb-4 lg:text-6xl">
         Get Involved
       </Title>
       <Text>

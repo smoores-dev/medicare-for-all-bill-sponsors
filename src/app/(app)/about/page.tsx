@@ -3,7 +3,7 @@ import { Anchor, List, ListItem, Stack, Text, Title } from "@mantine/core"
 export default async function About() {
   return (
     <Stack align="stretch">
-      <Title order={2} className="text-4xl md:text-5xl lg:text-6xl">
+      <Title order={2} className="mb-2 text-5xl lg:mb-4 lg:text-6xl">
         About
       </Title>
       <Title order={3}>What is the Medicare for All Act?</Title>
